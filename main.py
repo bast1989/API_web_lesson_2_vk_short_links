@@ -35,8 +35,7 @@ def count_clicks(token, link):
 
 
 def is_shorten_link(token, link):
-    is_shorten = True
-    clic_kstats_url = 'https://api.vk.ru/method/utils.getLinkStats'
+    click_stats_url = 'https://api.vk.ru/method/utils.getLinkStats'
     short_path = urlparse(link).path.lstrip('/')
     params = {
         'v': '5.199',
@@ -44,12 +43,10 @@ def is_shorten_link(token, link):
         'interval': 'forever',
         'key': short_path
     }
-    response = requests.get(clic_kstats_url, params=params)
+    response = requests.get(click_stats_url, params=params)
     response.raise_for_status()
     link_stats_response = response.json()
-    if 'error' in link_stats_response:
-        is_shorten = False
-    return is_shorten
+    return not 'error' in link_stats_response
 
 
 def main():
