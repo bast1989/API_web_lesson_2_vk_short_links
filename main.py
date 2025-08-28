@@ -8,21 +8,21 @@ VK_TOKEN = config('TOKEN')
 
 
 def shorten_link(token, url):
-    url_method = 'https://api.vk.ru/method/utils.getShortLink'
+    shortlink_url = 'https://api.vk.ru/method/utils.getShortLink'
     params = {
         'v': '5.199',
         'access_token': token,
         'private': '0',
         'url': url
     }
-    response = requests.get(url_method, params=params)
+    response = requests.get(shortlink_url, params=params)
     response.raise_for_status()
     short_link = response.json()
     return short_link['response']['short_url']
 
 
 def count_clicks(token, link):
-    url_method = 'https://api.vk.ru/method/utils.getLinkStats'
+    clickstats_url = 'https://api.vk.ru/method/utils.getLinkStats'
     body_link = urlparse(link).path.lstrip('/')
     params = {
         'v': '5.199',
@@ -30,7 +30,7 @@ def count_clicks(token, link):
         'interval': 'forever',
         'key': body_link
     }
-    response = requests.get(url_method, params=params)
+    response = requests.get(clickstats_url, params=params)
     response.raise_for_status()
     link_clicks = response.json()
     return link_clicks['response']['stats'][0]['views']
