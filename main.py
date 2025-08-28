@@ -2,11 +2,9 @@ import os
 from urllib.parse import urlparse
 
 import requests
-from dotenv import load_dotenv
+from decouple import config
 
-load_dotenv()
-
-VK_TOKEN = os.getenv('TOKEN')
+VK_TOKEN = config('TOKEN')
 
 
 def shorten_link(token, url):
