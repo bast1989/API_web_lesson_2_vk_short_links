@@ -1,10 +1,8 @@
-import os
 from urllib.parse import urlparse
 
+import decouple
 import requests
 from decouple import config
-
-VK_TOKEN = config('TOKEN')
 
 
 def shorten_link(token, url):
@@ -46,17 +44,22 @@ def is_shorten_link(url):
 
 def main():
     try:
+        vk_token = config('TOKEN')
         link = input('Введите ссылку: ')
         is_shorten = is_shorten_link(link)
         if is_shorten:
-            print(f'Количество посещений: {count_clicks(VK_TOKEN, link)}')
+            print(f'Количество посещений: {count_clicks(vk_token, link)}')
         else:
-            print(f'Сокращенная ссылка: {shorten_link(VK_TOKEN, link)}')
+            print(f'Сокращенная ссылка: {shorten_link(vk_token, link)}')
     except requests.exceptions.HTTPError as err:
         print(f'Произошла ошибка: {err}')
         print('Проверьте опечатки в адресе сайта')
-    except Exception as err:
+    except decouple.UndefinedValueError as err:
         print(f'Произошла ошибка: {err}')
+        print('Переменная окружения/в .env не найдена')
+    except requests.exceptions.ConnectionError as err:
+        print(f'Произошла ошибка: {err}')
+        print('Проверьте сетевое подключение или его настройки')
 
 
 if __name__ == '__main__':
