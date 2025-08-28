@@ -32,8 +32,8 @@ def count_clicks(token, link):
     }
     response = requests.get(url_method, params=params)
     response.raise_for_status()
-    view_link = response.json()
-    return view_link['response']['stats'][0]['views']
+    link_clicks = response.json()
+    return link_clicks['response']['stats'][0]['views']
 
 
 def is_shorten_link(url):
