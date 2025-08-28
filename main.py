@@ -23,12 +23,12 @@ def shorten_link(token, url):
 
 def count_clicks(token, link):
     clickstats_url = 'https://api.vk.ru/method/utils.getLinkStats'
-    body_link = urlparse(link).path.lstrip('/')
+    short_path = urlparse(link).path.lstrip('/')
     params = {
         'v': '5.199',
         'access_token': token,
         'interval': 'forever',
-        'key': body_link
+        'key': short_path
     }
     response = requests.get(clickstats_url, params=params)
     response.raise_for_status()
